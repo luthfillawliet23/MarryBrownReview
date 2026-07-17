@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marrybrown Swanston St — Customer Experience Brief</title>
+<style>
+  :root{
+    --red:#C8102E;
+    --red-dark:#8f0b20;
+    --yellow:#FFB81C;
+    --dark:#221f1f;
+    --gray:#5f5f5f;
+    --light:#f7f5f2;
+    --card:#ffffff;
+    --border:#e7e2da;
+    --green:#2e7d4f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--light);
+    color:var(--dark);
+    line-height:1.5;
+  }
+  header{
+    background:linear-gradient(135deg,var(--red) 0%,var(--red-dark) 100%);
+    color:#fff;
+    padding:36px 24px 44px;
+    text-align:center;
+  }
+  header h1{
+    margin:0 0 6px;
+    font-size:1.9rem;
+    letter-spacing:.2px;
+  }
+  header p{
+    margin:4px 0;
+    opacity:.92;
+    font-size:.95rem;
+  }
+  .badge{
+    display:inline-block;
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.4);
+    border-radius:20px;
+    padding:4px 14px;
+    font-size:.78rem;
+    margin-top:10px;
+  }
+  main{
+    max-width:1080px;
+    margin:0 auto;
+    padding:28px 20px 60px;
+  }
+  .kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:14px;
+    margin-bottom:32px;
+  }
+  .kpi{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px 16px;
+    text-align:center;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+  }
+  .kpi .val{
+    font-size:1.7rem;
+    font-weight:700;
+    color:var(--red);
+  }
+  .kpi .lab{
+    font-size:.78rem;
+    color:var(--gray);
+    margin-top:2px;
+  }
+  section{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:24px 26px;
+    margin-bottom:24px;
+    box-shadow:0 2px 10px rgba(0,0,0,.04);
+  }
+  h2{
+    font-size:1.15rem;
+    margin:0 0 4px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  h2 .num{
+    background:var(--red);
+    color:#fff;
+    width:26px;height:26px;
+    border-radius:50%;
+    display:inline-flex;
+    align-items:center;justify-content:center;
+    font-size:.8rem;
+    flex:none;
+  }
+  .subtext{
+    color:var(--gray);
+    font-size:.85rem;
+    margin:0 0 18px;
+  }
+  /* rating distribution */
+  .bar-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .bar-row .stars{
+    width:52px;
+    font-size:.82rem;
+    color:var(--gray);
+    flex:none;
+    text-align:right;
+  }
+  .bar-track{
+    flex:1;
+    background:#efeae2;
+    border-radius:8px;
+    height:20px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    border-radius:8px;
+    background:linear-gradient(90deg,var(--yellow),var(--red));
+    width:0;
+    transition:width 1s ease;
+    display:flex;
+    align-items:center;
+  }
+  .bar-row .count{
+    width:70px;
+    font-size:.8rem;
+    color:var(--dark);
+    flex:none;
+  }
+  /* word chart */
+  .word-grid{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+  .word-row{
+    display:grid;
+    grid-template-columns:150px 1fr 40px;
+    align-items:center;
+    gap:10px;
+  }
+  .word-row .word{
+    font-size:.86rem;
+    font-weight:600;
+  }
+  .word-track{
+    background:#efeae2;
+    border-radius:8px;
+    height:16px;
+    overflow:hidden;
+  }
+  .word-fill{
+    height:100%;
+    background:linear-gradient(90deg,#3b7d64,#2e7d4f);
+    width:0;
+    border-radius:8px;
+    transition:width 1s ease;
+  }
+  .word-row .n{
+    font-size:.78rem;
+    color:var(--gray);
+    text-align:right;
+  }
+  .note{
+    font-size:.78rem;
+    color:var(--gray);
+    background:#fbf5e8;
+    border:1px solid #f0e2bd;
+    border-radius:10px;
+    padding:10px 14px;
+    margin-top:14px;
+  }
+  /* problems */
+  .problem-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:16px;
+  }
+  .problem-card{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px;
+    background:#fffdfa;
+  }
+  .problem-card .ptitle{
+    font-weight:700;
+    font-size:1rem;
+    margin-bottom:6px;
+    color:var(--red-dark);
+  }
+  .problem-card .pdesc{
+    font-size:.86rem;
+    color:var(--dark);
+    margin-bottom:10px;
+  }
+  .quote{
+    font-size:.8rem;
+    font-style:italic;
+    color:var(--gray);
+    border-left:3px solid var(--yellow);
+    padding-left:10px;
+    margin:8px 0;
+  }
+  .quote .who{
+    display:block;
+    font-style:normal;
+    font-size:.72rem;
+    color:#a0a0a0;
+    margin-top:2px;
+  }
+  .solution{
+    margin-top:10px;
+    background:#eef7f1;
+    border:1px solid #cfe9d8;
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:.82rem;
+  }
+  .solution b{color:var(--green);}
+  /* reviews list */
+  .filters{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+  .filter-btn{
+    border:1px solid var(--border);
+    background:#fff;
+    border-radius:20px;
+    padding:6px 14px;
+    font-size:.8rem;
+    cursor:pointer;
+    color:var(--dark);
+    transition:.15s;
+  }
+  .filter-btn.active{
+    background:var(--red);
+    border-color:var(--red);
+    color:#fff;
+  }
+  .review-card{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    background:#fff;
+  }
+  .review-card .rtop{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:6px;
+  }
+  .review-card .rname{
+    font-weight:600;
+    font-size:.88rem;
+  }
+  .review-card .rmeta{
+    font-size:.72rem;
+    color:var(--gray);
+  }
+  .stars-ico{
+    color:var(--yellow);
+    letter-spacing:1px;
+  }
+  .review-card .rtext{
+    font-size:.85rem;
+    color:var(--dark);
+  }
+  footer{
+    text-align:center;
+    padding:20px;
+    font-size:.75rem;
+    color:var(--gray);
+  }
+  a.host-link{color:var(--red);}
+  .intro-box{
+    background:#fff;
+    border:1px solid var(--border);
+    border-left:4px solid var(--red);
+    border-radius:14px;
+    padding:20px 22px;
+    margin-bottom:24px;
+    font-size:.9rem;
+  }
+  .intro-box .itag{
+    font-size:.72rem;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    color:var(--red);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .closing-box{
+    background:linear-gradient(135deg,#fff8ef,#fff);
+    border:1px solid #f0e2bd;
+    border-radius:14px;
+    padding:22px;
+    font-size:.9rem;
+  }
+  .closing-box h2{margin-bottom:10px;}
+  .closing-box p{margin:0 0 10px;}
+  .signature{
+    margin-top:14px;
+    font-size:.85rem;
+    color:var(--gray);
+  }
+  @media(max-width:600px){
+    .word-row{grid-template-columns:110px 1fr 34px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🍗 Marrybrown Swanston St — Customer Experience Brief</h1>
+  <p>1/339 Swanston St, Melbourne VIC 3000 (Melbourne Central precinct)</p>
+  <span class="badge">Prepared by Luthfil Lawliet · Google Maps review data, 11 Jul 2026</span>
+</header>
+
+<main>
+
+  <div class="intro-box">
+    <div class="itag">Why I put this together</div>
+    <p style="margin:0 0 12px;">I'm Luthfil Lawliet — an international student based in Melbourne for the past six months, currently studying and actively looking to join a team where I can contribute from day one. I'm a hands-on problem solver who likes digging into data and turning it into something actionable, and I genuinely enjoy customer-facing work.</p>
+    <p style="margin:0;">Before applying to Marrybrown, I wanted to actually understand the store from a customer's perspective — not just the menu, but what people are saying after they visit. So I pulled the public Google reviews and turned them into the brief below: what's already working, where there's room to grow, and a few ideas I'd bring if I joined. Hope it's a useful (and hopefully interesting) way to introduce myself.</p>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="val">2.7★</div><div class="lab">Overall rating</div></div>
+    <div class="kpi"><div class="val">125</div><div class="lab">Total reviews</div></div>
+    <div class="kpi"><div class="val">27%</div><div class="lab">Rate it 5 stars</div></div>
+    <div class="kpi"><div class="val">43%</div><div class="lab">Biggest growth opportunity: 1-star visits</div></div>
+  </div>
+
+  <section>
+    <h2><span class="num">1</span>Rating distribution</h2>
+    <p class="subtext">Out of all 125 Google reviews for this location.</p>
+    <div id="ratingChart"></div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>Top 10 most-mentioned words &amp; topics</h2>
+    <p class="subtext">Based on Google's extracted review topics (aggregated across all 125 reviews) plus manual review-text analysis. Note: a high mention count reflects frequency of discussion, not necessarily positive sentiment — e.g. "friendly staff" is mentioned often in both praise <em>and</em> complaints about inconsistent service.</p>
+    <div class="word-grid" id="wordChart"></div>
+    <div class="note">⚠️ Full scrape of all 125 review texts was interrupted by a Google Maps rendering issue mid-session. This chart blends Google's own topic-tag counts (covering the full 125-review set) with word-frequency from a 10-review text sample. Treat exact counts as directional, not exhaustive.</div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>Top 3 opportunities to lift the rating</h2>
+    <p class="subtext">The themes that show up most often in lower-rated visits — and the ones I think would move the needle fastest if addressed.</p>
+    <div class="problem-grid" id="problemGrid"></div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>Where I'd start</h2>
+    <p class="subtext">A few concrete, low-cost ideas tied to each opportunity above.</p>
+    <div id="solutionList"></div>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>Untapped market: Muslim newcomers in Melbourne</h2>
+    <p class="subtext">A market-penetration observation from someone who's lived it firsthand.</p>
+    <div style="font-size:.9rem;line-height:1.65;">
+      <p style="margin:0 0 12px;">Here's something I noticed as a newcomer myself: <strong>I only discovered Marrybrown by accident.</strong> After nearly six months living in Melbourne, I stumbled across the Swanston St store while passing through — I had no idea it was here, and more importantly, no idea it was halal. That's a missed connection, because finding reliable halal food is one of the first things international Muslim students and families do when they arrive.</p>
+      <p style="margin:0 0 12px;">The way most newcomers find halal restaurants is through <strong>community WhatsApp groups</strong> — curated lists of halal spots circulated among new arrivals. I used one myself. Marrybrown wasn't on it. Meanwhile, competitors like <strong>Nene Chicken</strong> were mentioned repeatedly and had visible presence at community events.</p>
+      <p style="margin:0 0 12px;">I've also attended several <strong>iftar events</strong> at university campuses and mosques/mushallahs around Melbourne. These gatherings draw hundreds of Muslim students and families — exactly the demographic Marrybrown serves. Yet every event I attended featured other brands. Marrybrown was nowhere to be seen.</p>
+      <p style="margin:0 0 14px;">This represents a significant <strong>low-cost, high-return market penetration opportunity</strong>:</p>
+      <div class="solution" style="margin-bottom:10px;"><b>Community list seeding:</b> Get Marrybrown onto the halal-food WhatsApp lists that circulate among new international students. A few outreach messages to Islamic student associations (ISOC) at Melbourne's major universities (UniMelb, RMIT, Monash City) could do this organically.</div>
+      <div class="solution" style="margin-bottom:10px;"><b>Campus & mosque event sponsorship:</b> Sponsor or cater iftar events, orientation-week food stalls, or Friday-prayer community lunches. These are high-trust environments where a single positive experience turns into word-of-mouth across an entire cohort of new arrivals.</div>
+      <div class="solution" style="margin-bottom:10px;"><b>Visible halal branding:</b> Make the halal certification more prominent in storefront signage and on Google Maps listing photos. Many Muslim customers specifically search "halal" on Maps — Marrybrown should rank for it immediately.</div>
+      <div class="solution" style="margin-bottom:10px;"><b>Newcomer welcome offer:</b> A simple "New to Melbourne?" discount card distributed at airport welcome desks, university orientation packs, or mosque noticeboards could drive first visits from people who would otherwise default to the brands they already know.</div>
+      <p style="margin:14px 0 0;font-size:.85rem;color:var(--gray);">Melbourne receives thousands of new Muslim international students every semester. Most are actively searching for halal dining options in their first weeks. Right now, Marrybrown is invisible to them. Fixing that is mostly a distribution and awareness problem — the product (affordable halal fried chicken in the CBD) already fits the demand perfectly.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">6</span>Sample reviews</h2>
+    <p class="subtext">A mix of the praise and the criticism, so the picture stays balanced. Filter by rating to browse.</p>
+    <div class="filters" id="filters"></div>
+    <div id="reviewList"></div>
+  </section>
+
+  <section class="closing-box">
+    <h2><span class="num">7</span>Why I'm applying</h2>
+    <p>I like that this role is equal parts people and process — and I think the biggest opportunities above (order accuracy, consistency, service) are all things a motivated team member can genuinely influence day to day, not just at the corporate level. I put this brief together the way I'd want to approach the job itself: look closely at what's actually happening, be honest about the gaps, and come with ideas rather than just observations.</p>
+    <p>I'd love the chance to talk more about the role and bring this kind of attention to the Swanston St team.</p>
+    <div class="signature">
+      Luthfil Lawliet<br>
+      luthfillawliet23@gmail.com
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  This is a personal work sample built from publicly available Google reviews — not an official Marrybrown document.<br>
+  Static, offline-first HTML — opens directly in any browser. To publish online later, drag this file into <a class="host-link" href="https://app.netlify.com/drop" target="_blank">Netlify Drop</a> or push it to <a class="host-link" href="https://pages.github.com/" target="_blank">GitHub Pages</a> — no build step required.
+</footer>
+
+<script>
+// ---------- DATA ----------
+const ratingDist = [
+  {stars:5, count:34},
+  {stars:4, count:16},
+  {stars:3, count:11},
+  {stars:2, count:10},
+  {stars:1, count:54}
+];
+
+const topWords = [
+  {word:"friendly staff", n:18},
+  {word:"spicy food", n:8},
+  {word:"fried chicken", n:7},
+  {word:"missing (items)", n:6},
+  {word:"nasi lemak", n:5},
+  {word:"welcoming atmosphere", n:5},
+  {word:"chicken burger", n:5},
+  {word:"halal food", n:4},
+  {word:"cold (food)", n:4},
+  {word:"crispy chicken", n:3}
+];
+
+const problems = [
+  {
+    title: "1. Freshness & consistency",
+    desc: "A handful of reviews flag food arriving cold or not tasting right. This is usually the fastest lever to pull — small process fixes tend to show up in ratings within weeks.",
+    quotes: [
+      {text:"Ordered mashed potatoes takeaway — they'd gone off and had to be thrown away.", who:"BB Kd, 1★"},
+      {text:"The food has way too much baking soda, leaving a strange aftertaste.", who:"Prathamesh Gaikwad, 1★"}
+    ]
+  },
+  {
+    title: "2. Order accuracy & portions",
+    desc: "The most repeated theme in the lower-rated reviews: items missing from an order, or a portion feeling smaller than expected. This is very fixable with a simple check-before-handoff habit.",
+    quotes: [
+      {text:"I ordered two large fries, but the portion was tiny — nothing close to “large.”", who:"Jimmy Low, 1★"},
+      {text:"I ordered the Nasi Kandar and it came without the curry sauce — not the first time something was missing.", who:"YiXuan Ong, 1★"}
+    ]
+  },
+  {
+    title: "3. Service consistency",
+    desc: "Experience varies noticeably visit to visit, and reviewers sometimes compare it unfavourably to the nearby Melbourne Central branch. Standardizing the good moments could turn more first-timers into regulars.",
+    quotes: [
+      {text:"Asked them to cut the burger in half — the Melbourne Central branch always does it, so it stood out when this store said no.", who:"Aiman Rashid, 1★"},
+      {text:"Friendly, welcoming service comes up a lot in the positive reviews too — it's clearly there, just not every time.", who:"Based on 18 mentions of \"friendly staff\" across all reviews"}
+    ]
+  }
+];
+
+const solutions = [
+  {p:"Freshness & consistency", s:"A simple hot-holding temperature log for sides/gravy, plus a quick taste-check on batter seasoning at shift start, catches most of this before it reaches a customer."},
+  {p:"Order accuracy & portions", s:"A 5-second visual check against the receipt before handoff, and standardized scoop sizes across shifts, would resolve the majority of these complaints at near-zero cost."},
+  {p:"Service consistency", s:"Since friendly service already shows up often in the positive reviews, this is more about consistency than training from scratch — quick shift-start reminders and clear guidance on handling simple customer requests would go a long way."}
+];
+
+const reviews = [
+  {author:"Ashlee Jayde", rating:3, time:"3 months ago", text:"I visited Marrybrown for the first time in March 2026 on a Sunday evening for dinner with some friends. We were wandering through the CBD looking for something to eat and decided to give it a go. It's in a super central spot, with the State Library nearby."},
+  {author:"kitty xin", rating:3, time:"3 months ago", text:"It was off peak time and I was waiting for 10 minutes for my simple side dishes. The gravy was almost cold and chips was smaller than before. PH surcharge applied."},
+  {author:"BB Kd", rating:1, time:"5 months ago", text:"Ordered mashed potatoes takeaway all three were spoiled, with a rotten smell and sour taste. Completely inedible and unacceptable. Had to throw everything away. Waste of money."},
+  {author:"Aiman Rashid", rating:1, time:"6 months ago", text:"Really bad experience — I asked them to cut the burger in half and the staff member was so rude and kept saying we don't do it here. Pathetic customer service. The Melbourne Central branch always cuts it when asked; Swanston Street needs to get their staff trained properly!"},
+  {author:"Jimmy Low", rating:1, time:"9 months ago", text:"I ordered two large fries, but the portion was tiny — nothing close to “large.” On top of that, the fries were cold and not fresh at all. This is not the first time: almost every order has either missing items, incorrect portions, or poor quality."},
+  {author:"Prathamesh Gaikwad", rating:1, time:"7 months ago", text:"I've given this restaurant multiple chances — tried it 4–5 times — and every single visit has been a disappointment. The food has way too much baking soda, leaving a strange aftertaste and ruining the entire meal."},
+  {author:"Rocke", rating:5, time:"a year ago", text:"Best chicken burger for the price I've had. It's definitely better than a Zinger, actually spicy and bigger, too. That mayo they use is also amazing. The fried chicken is always cooked perfectly with a crispy coating."},
+  {author:"Shajee", rating:1, time:"10 months ago", text:"A disappointment from start to finish. I would definitely say this was the worst Marrybrown I've ever visited."},
+  {author:"Shai N", rating:4, time:"10 months ago", text:"It's located close to Melbourne Central. I enjoyed the Nasi Lemak because it was so spicy and service was fast."},
+  {author:"YiXuan Ong", rating:1, time:"9 months ago", text:"I've had repeated issues with missing items from my orders. Most recently, I ordered the Nasi Kandar and it came without the curry sauce, which is a key part of the meal. This isn't the first time something was missing."}
+];
+
+// ---------- RENDER: rating chart ----------
+const ratingWrap = document.getElementById('ratingChart');
+const maxCount = Math.max(...ratingDist.map(r=>r.count));
+ratingDist.forEach(r=>{
+  const pct = Math.round(r.count/125*100);
+  const row = document.createElement('div');
+  row.className='bar-row';
+  row.innerHTML = `
+    <div class="stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+    <div class="bar-track"><div class="bar-fill" data-w="${(r.count/maxCount*100)}"></div></div>
+    <div class="count">${r.count} (${pct}%)</div>
+  `;
+  ratingWrap.appendChild(row);
+});
+
+// ---------- RENDER: word chart ----------
+const wordWrap = document.getElementById('wordChart');
+const maxWord = Math.max(...topWords.map(w=>w.n));
+topWords.forEach(w=>{
+  const row = document.createElement('div');
+  row.className='word-row';
+  row.innerHTML = `
+    <div class="word">${w.word}</div>
+    <div class="word-track"><div class="word-fill" data-w="${(w.n/maxWord*100)}"></div></div>
+    <div class="n">${w.n}</div>
+  `;
+  wordWrap.appendChild(row);
+});
+
+// animate bars after paint
+requestAnimationFrame(()=>{
+  setTimeout(()=>{
+    document.querySelectorAll('.bar-fill, .word-fill').forEach(el=>{
+      el.style.width = el.getAttribute('data-w') + '%';
+    });
+  }, 100);
+});
+
+// ---------- RENDER: problems ----------
+const problemGrid = document.getElementById('problemGrid');
+problems.forEach(p=>{
+  const card = document.createElement('div');
+  card.className='problem-card';
+  card.innerHTML = `
+    <div class="ptitle">${p.title}</div>
+    <div class="pdesc">${p.desc}</div>
+    ${p.quotes.map(q=>`<div class="quote">"${q.text}"<span class="who">— ${q.who}</span></div>`).join('')}
+  `;
+  problemGrid.appendChild(card);
+});
+
+// ---------- RENDER: solutions ----------
+const solWrap = document.getElementById('solutionList');
+solutions.forEach((s,i)=>{
+  const div = document.createElement('div');
+  div.className='solution';
+  div.innerHTML = `<b>${i+1}. ${s.p}:</b> ${s.s}`;
+  div.style.marginBottom='10px';
+  solWrap.appendChild(div);
+});
+
+// ---------- RENDER: review list + filters ----------
+const filtersWrap = document.getElementById('filters');
+const reviewListWrap = document.getElementById('reviewList');
+const filterOptions = ['All',5,4,3,2,1];
+
+function renderReviews(filter){
+  reviewListWrap.innerHTML='';
+  const filtered = filter==='All' ? reviews : reviews.filter(r=>r.rating===filter);
+  if(filtered.length===0){
+    reviewListWrap.innerHTML = '<p class="subtext">No reviews in this sample for that rating.</p>';
+    return;
+  }
+  filtered.forEach(r=>{
+    const card = document.createElement('div');
+    card.className='review-card';
+    card.innerHTML = `
+      <div class="rtop">
+        <span class="rname">${r.author}</span>
+        <span class="rmeta">${r.time}</span>
+      </div>
+      <div class="stars-ico">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+      <div class="rtext">${r.text}</div>
+    `;
+    reviewListWrap.appendChild(card);
+  });
+}
+
+filterOptions.forEach(opt=>{
+  const btn = document.createElement('button');
+  btn.className='filter-btn' + (opt==='All' ? ' active':'');
+  btn.textContent = opt==='All' ? 'All' : `${opt}★`;
+  btn.onclick = ()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderReviews(opt);
+  };
+  filtersWrap.appendChild(btn);
+});
+
+renderReviews('All');
+</script>
+
+</body>
+</html>
